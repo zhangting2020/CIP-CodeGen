@@ -13,7 +13,7 @@
 // limitations under the License.
 #pragma once
 
-namespace clp {
+namespace cip {
 
 class Status {
 

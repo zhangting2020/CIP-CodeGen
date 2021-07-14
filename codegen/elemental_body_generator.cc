@@ -14,6 +14,6 @@
 
 #include "elemental_body_generator.h"
 
-namespace clp {
+namespace cip {
     
 }
