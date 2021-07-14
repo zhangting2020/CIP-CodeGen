@@ -26,10 +26,17 @@ namespace cip {
 
 class MloModule;
 class MloInstruction;
-class Executable;
+
+// After compilation, an Executable will be returned.
+class Executable {
+public:
+    virtual ~Executable() {}
+};
 
 class Compiler {
 public:
+    virtual ~Compiler() {}
+
     virtual Executable* run(MloModule* mlo_module);
     virtual void CompileModuleToLlvmIr();
     virtual void CompileLlvmIrToBinary();
