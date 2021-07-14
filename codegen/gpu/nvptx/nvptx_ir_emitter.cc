@@ -14,8 +14,8 @@
 
 #include "nvptx_ir_emitter.h"
 
-namespace clp {
+namespace cip {
 namespace gpu {
-    
+
 }
 }

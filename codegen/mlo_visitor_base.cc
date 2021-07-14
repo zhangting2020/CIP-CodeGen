@@ -14,7 +14,7 @@
 
 #include "mlo_visitor_base.h"
 
-namespace clp {
+namespace cip {
 
     
 }

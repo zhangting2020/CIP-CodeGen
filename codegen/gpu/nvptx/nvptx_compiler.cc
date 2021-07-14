@@ -14,7 +14,7 @@
 
 #include "nvptx_compiler.h"
 
-namespace clp {
+namespace cip {
 namespace gpu {
     
 }

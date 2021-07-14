@@ -15,9 +15,16 @@
 
 #include "status.h"
 
-namespace clp {
+namespace cip {
+
+enum OpCode {
+
+}
 
 class MloInstruction {
+public:
+
+private:
 
 };
 

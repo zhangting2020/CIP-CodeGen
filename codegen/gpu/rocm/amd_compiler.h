@@ -14,7 +14,7 @@
 
 #include "codegen/gpu/gpu_compiler.h"
 
-namespace clp {
+namespace cip {
 namespace gpu {
 
 class AmdCompiler : public GpuCompiler {

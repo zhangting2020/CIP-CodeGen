@@ -15,7 +15,7 @@
 
 #include "codegen/elemental_ir_emitter.h"
 
-namespace clp {
+namespace cip {
 namespace gpu {
 
 class GpuElementalIrEmitter : public ElementalIrEmitter{

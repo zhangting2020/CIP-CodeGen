@@ -13,10 +13,35 @@
 // limitations under the License.
 #pragma once
 
-namespace clp {
+#include <string>
+#include <functional>
 
+#include "llvm/ExecutionEngine/MCJIT.h"
+#include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/TypeBuilder.h"
+#include "llvm/Support/TargetSelect.h"
+
+namespace cip {
+
+
+using std::function<llvm::Value*(const std::unordered_map<std::string,llvmm::Value>& dependency, llvm::IRBuilder<>* llvm_builder)> Generator;
 class ElementalBodyGenerator {
+public:
+    ElementalBodyGenerator(){}
+    ~ElementalBodyGenerator(){}
 
+    void init(std::string name, std::string type, Generator gen);
+    std::string GetName();
+    std::string GetType();
+    llvm::Value* Run(const std::unordered_map<std::string,llvmm::Value>& dependency, llvm::IRBuilder<>* llvm_builder);
+private:
+    std::string name;
+    std::string type;
+    Generator generator;
 };
 
 }

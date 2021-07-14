@@ -14,7 +14,7 @@
 
 #include "gpu_elemental_ir_emitter.h"
 
-namespace clp {
+namespace cip {
 
 namespace gpu {
     

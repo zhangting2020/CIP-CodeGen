@@ -14,7 +14,7 @@
 #pragma once
 #include "codegen/ir_emitter.h"
 
-namespace clp{
+namespace cip{
 
 namespace gpu{
 

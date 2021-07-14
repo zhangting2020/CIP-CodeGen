@@ -16,11 +16,11 @@
 #include "status.h"
 #include "mlo_instruction.h"
 
-namespace clp{
+namespace cip {
 
 //A Mlo Instruction Visitor
 
-class MloVisitorBase{
+class MloVisitorBase {
 public:
     MloVisitorBase(){}
     ~MloVisitorBase(){}
@@ -55,6 +55,7 @@ public:
     virtual Status HandleTranspose(MloInstruction* mlo) = 0;
 
     virtual Status HandleConcat(MloInstruction* mlo) = 0;
+    virtual Status HandleSlice(MloInstruction* mlo) = 0;
 };
 
 }

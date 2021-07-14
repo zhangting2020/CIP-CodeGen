@@ -14,6 +14,6 @@
 
 #include "gpu_compiler.h"
 
-namespace clp {
+namespace cip {
     
 }

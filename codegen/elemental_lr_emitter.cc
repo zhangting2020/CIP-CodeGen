@@ -14,6 +14,6 @@
 
 #include "elemental_ir_emitter.h"
 
-namespace clp {
+namespace cip {
     
 }

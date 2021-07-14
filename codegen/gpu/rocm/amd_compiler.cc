@@ -14,7 +14,7 @@
 
 #include "amd_compiler.h"
 
-namespace clp {
+namespace cip {
 namespace gpu {
     
 }

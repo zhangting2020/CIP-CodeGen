@@ -13,10 +13,30 @@
 // limitations under the License.
 #pragma once
 
-namespace clp {
+#include "llvm/ExecutionEngine/MCJIT.h"
+#include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/TypeBuilder.h"
+#include "llvm/Support/TargetSelect.h"
+
+namespace cip {
+
+class MloModule;
+class MloInstruction;
+class Executable;
 
 class Compiler {
-
+public:
+    virtual Executable* run(MloModule* mlo_module);
+    virtual void CompileModuleToLlvmIr();
+    virtual void CompileLlvmIrToBinary();
+private:
+    llvm::LLVMContext* llvm_context;
+    llvm::Module* llvm_module;
+    llvm::IRBuilder<>* llvm_builder;
 };
 
 }

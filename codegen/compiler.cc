@@ -14,6 +14,6 @@
 
 #include "compiler.h"
 
-namespace clp {
+namespace cip {
     
 }
