@@ -13,11 +13,21 @@
 // limitations under the License.
 #pragma once
 
+#include "codegen/compiler.h"
+
 namespace cip {
 namespace gpu {
 
-class GpuCompiler : public Compiler{
+class GpuExecutable : public Executable {
+public:
+    ~GpuExecutable() override {}
+};
 
+
+class GpuCompiler : public Compiler
+{
+public:
+    ~GpuCompiler() override {}
 };
 }
 }

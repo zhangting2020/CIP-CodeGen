@@ -13,10 +13,37 @@
 // limitations under the License.
 #pragma once
 
+#include "llvm/ExecutionEngine/MCJIT.h"
+#include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/TypeBuilder.h"
+#include "llvm/Support/TargetSelect.h"
+
 namespace cip {
 
-class Compiler {
+class MloModule;
+class MloInstruction;
 
+// After compilation, an Executable will be returned.
+class Executable {
+public:
+    virtual ~Executable() {}
+};
+
+class Compiler {
+public:
+    virtual ~Compiler() {}
+
+    virtual Executable* run(MloModule* mlo_module);
+    virtual void CompileModuleToLlvmIr();
+    virtual void CompileLlvmIrToBinary();
+private:
+    llvm::LLVMContext* llvm_context;
+    llvm::Module* llvm_module;
+    llvm::IRBuilder<>* llvm_builder;
 };
 
 }
