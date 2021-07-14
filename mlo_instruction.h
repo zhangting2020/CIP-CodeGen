@@ -17,7 +17,14 @@
 
 namespace cip {
 
+enum OpCode {
+
+}
+
 class MloInstruction {
+public:
+
+private:
 
 };
 

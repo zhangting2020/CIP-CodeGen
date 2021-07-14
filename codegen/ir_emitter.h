@@ -19,9 +19,40 @@ namespace cip{
 
 class IrEmitter : public MloVisitorBase{
 public:
+    IrEmitter(){}
+    ~IrEmitter(){}
 
-private:
+    virtual Status HandleElementwiseUnary(MloInstruction* mlo) = 0;
+    virtual Status HandleElementwiseBinary(MloInstruction* mlo) = 0;
 
+    //Unary
+    virtual Status HandleCast(MloInstruction* mlo) = 0;
+    virtual Status HandleCopy(MloInstruction* mlo) = 0;
+    virtual Status HandleExp(MloInstruction* mlo) = 0;
+    virtual Status HandleLog(MloInstruction* mlo) = 0;
+    virtual Status HandleSqrt(MloInstruction* mlo) = 0;
+    virtual Status HandleRsqrt(MloInstruction* mlo) = 0;
+    virtual Status HandleNegative(MloInstruction* mlo) = 0;
+
+    //Binary
+    virtual Status HandleAdd(MloInstruction* mlo) = 0;
+    virtual Status HandleSubtract(MloInstruction* mlo) = 0;
+    virtual Status HandleMultiply(MloInstruction* mlo) = 0;
+    virtual Status HandleDivide(MloInstruction* mlo) = 0;
+    virtual Status HandleMaximum(MloInstruction* mlo) = 0;
+    virtual Status HandleMiniMum(MloInstruction* mlo) = 0;
+    virtual Status HandleCompare(MloInstruction* mlo) = 0;
+
+    //other
+    virtual Status HandleBroadcast(MloInstruction* mlo) = 0;
+    virtual Status HandleReduce(MloInstruction* mlo) = 0;
+    virtual Status HandleReshape(MloInstruction* mlo) = 0;
+    virtual Status HandleRng(MloInstruction* mlo) = 0;
+    virtual Status HandleSelect(MloInstruction* mlo) = 0;
+    virtual Status HandleTranspose(MloInstruction* mlo) = 0;
+
+    virtual Status HandleConcat(MloInstruction* mlo) = 0;
+    virtual Status HandleSlice(MloInstruction* mlo) = 0;
 };
 
 }
