@@ -14,20 +14,16 @@
 #pragma once
 
 #include "status.h"
+#include <vector>
 
 namespace cip {
 
-enum OpCode {
-    kAdd
-};
-
-class MloInstruction {
+class MloModule {
 public:
-    MloInstruction(OpCode opcode);
-    OpCode opcode();
+    MloModule(const std::vector<MloInstruction> &mlo_instructions);
+    std::vector<MloInstruction> instructions();
 
 private:
-    OpCode opcode_;
+    std::vector<MloInstruction> mlo_instructions_;
 };
-
 }

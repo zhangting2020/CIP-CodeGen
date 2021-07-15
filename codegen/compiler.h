@@ -22,6 +22,8 @@
 #include "llvm/IR/TypeBuilder.h"
 #include "llvm/Support/TargetSelect.h"
 
+#include "codegen/ir_emitter.h"
+
 namespace cip {
 
 class MloModule;
@@ -40,10 +42,14 @@ public:
     virtual Executable* run(MloModule* mlo_module);
     virtual void CompileModuleToLlvmIr();
     virtual void CompileLlvmIrToBinary();
+
+    IrEmitter *ir_emitter;
+
 private:
     llvm::LLVMContext* llvm_context;
     llvm::Module* llvm_module;
     llvm::IRBuilder<>* llvm_builder;
+    MloModule *mlo_module_;
 };
 
 }

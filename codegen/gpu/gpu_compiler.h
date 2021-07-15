@@ -27,7 +27,13 @@ public:
 class GpuCompiler : public Compiler
 {
 public:
+    GpuCompiler() override {
+        ir_emitter = new cip::gpu::GpuIrEmitter();
+    }
     ~GpuCompiler() override {}
+
+    Executable* run(MloModule* mlo_module) override;
+    void CompileModuleToLlvmIr() override;
 };
 }
 }

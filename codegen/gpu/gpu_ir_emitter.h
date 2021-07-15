@@ -20,6 +20,8 @@ namespace gpu{
 
 class GpuIrEmitter : public IrEmitter {
 public:
+    Status Handle(MloInstruction *mlo) override;
+    Status HandleAdd(MloInstruction *mlo) override;
 
 private:
 

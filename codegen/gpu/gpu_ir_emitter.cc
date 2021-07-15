@@ -17,6 +17,21 @@
 namespace cip {
 
 namespace gpu {
+
+Status GpuIrEmitter::Handle(MloInstruction *mlo) {
+    switch (mlo->opcode()) {
+        case kAdd:
+            HandleAdd(mlo);
+            break;
+
+        default:
+            break;
+    }
+}
+
+Status GpuIrEmitter::HandleAdd(MloInstruction *mlo) {
+    // add something to llvm_module
+}
     
 }
 }

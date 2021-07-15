@@ -12,8 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gpu_compiler.h"
+#include "codegen/gpu/gpu_compiler.h"
 
 namespace cip {
-    
+
+namespace gpu {
+
+Executable* GpuCompiler::run(MloModule* mlo_module) {
+    mlo_module_ = mlo_module;
+    CompileModuleToLlvmIr();
+}
+
+void GpuCompiler::CompileModuleToLlvmIr() {
+    // step 1: init something for llvm ir
+
+    ir_emitter->llvm_module = llvm_module;
+
+    auto instructions = mlo_module_->instructions();
+    for (auto &instruction : instructions) {
+        ir_emitter->Handle(&instruction); // add it to llvm_module
+    }
+}
+
+}
 }

@@ -23,6 +23,8 @@ public:
     IrEmitter(){}
     ~IrEmitter(){}
 
+    virtual Status Handle(MloInstruction *mlo) = 0;
+
     virtual Status HandleElementwiseUnary(MloInstruction* mlo) = 0;
     virtual Status HandleElementwiseBinary(MloInstruction* mlo) = 0;
 
@@ -54,6 +56,11 @@ public:
 
     virtual Status HandleConcat(MloInstruction* mlo) = 0;
     virtual Status HandleSlice(MloInstruction* mlo) = 0;
+
+public:
+    llvm::LLVMContext* llvm_context;
+    llvm::Module* llvm_module;
+    llvm::IRBuilder<>* llvm_builder;
 };
 
 }
