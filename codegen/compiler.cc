@@ -13,7 +13,29 @@
 // limitations under the License.
 
 #include "compiler.h"
+#include "schedule_wrapper.h"
 
 namespace cip {
-    
+
+Executable Compiler::Compile(MloModule* mlo_module) {
+    llvm::Context llvm_context;
+    llvm::Module llvm_module("",llvm_context);
+
+    Schedules schedules;
+
+    CompileModuleToLlvmIr(mlo_module, &llvm_module, &schedules);
+
+    CompileLlvmIrToBinary(llvm_module);
+}
+
+Status Compiler::CompileModuleToLlvmIr(MloModule* mlo_module, llvm::Module* llvm_module, Schedules* schedule) {
+
+    IrEmitter ir_emitter(llvm_module, schedule);
+    std::vector<MloInstruction*> mlo_instructions = mlo_module.GetOrderdMloInstructions();
+
+    for(auto mlo_instr : mlo_instructions) {
+        mlo_instr->Accept(&ir_emitter);
+    }
+}
+
 }

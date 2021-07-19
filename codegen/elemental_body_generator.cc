@@ -15,5 +15,5 @@
 #include "elemental_body_generator.h"
 
 namespace cip {
-    
+
 }

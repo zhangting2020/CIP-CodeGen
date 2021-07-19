@@ -19,7 +19,26 @@ namespace cip {
 namespace gpu {
 
 class NvptxElementalIrEmitter : public GpuElementalIrEmitter{
+public:
+    NvptxElementalIrEmitter(){}
+    ~NvptxElementalIrEmitter(){}
 
+    llvm::Value* ThreadIdx() override;
+    llvm::Value* ThreadIdy() override;
+    llvm::Value* ThreadIdy() override;
+    llvm::Value* ThreadIdz() override;
+    llvm::Value* BlockDimx() override;
+    llvm::Value* BlockDimy() override;
+    llvm::Value* BlockDimz() override;
+    llvm::Value* BlockIdx() override;
+    llvm::Value* BlockIdy() override;
+    llvm::Value* BlockIdz() override;
+    void ThreadSync() override;
+
+    llvm::Value* Rsqrt(llvm::Value*) override;
+    llvm::Value* Sqrt(llvm::Value*) override;
+
+    llvm::Value* TypeCast(llvm::Value*, Type *, llvm::Value*, Type *) override;
 };
 
 }

@@ -13,6 +13,7 @@
 // limitations under the License.
 #pragma once
 
+#include <vector>
 #include <string>
 #include <functional>
 
@@ -28,20 +29,34 @@
 namespace cip {
 
 
-using std::function<llvm::Value*(const std::unordered_map<std::string,llvmm::Value>& dependency, llvm::IRBuilder<>* llvm_builder)> Generator;
+using IrArray = std::vector<llvm::Value*>;
+using Generator = std::function<IrArray(IrArray, llvm::IRBuilder<>* llvm_builder)>;
+
 class ElementalBodyGenerator {
 public:
-    ElementalBodyGenerator(){}
+    ElementalBodyGenerator(std::string name, std::string type, Generator generator){}
     ~ElementalBodyGenerator(){}
 
-    void init(std::string name, std::string type, Generator gen);
     std::string GetName();
     std::string GetType();
-    llvm::Value* Run(const std::unordered_map<std::string,llvmm::Value>& dependency, llvm::IRBuilder<>* llvm_builder);
+    Generator& GetGenerator();
+    IrArray Run(const IrArray&, llvm::IRBuilder *ir_builder);
 private:
-    std::string name;
-    std::string type;
-    Generator generator;
+    std::string generator_name_;
+    std::string generator_type_;
+    Generator generator_;
 };
+
+
+template<typename  T>
+IrArray BuildIrArray(T value) {
+
+}
+
+template<typename  T, typename  ...Ts>
+IrArray BuildIrArray(T first, Ts rest){
+    IrArray ir_array;// = {args};
+    return ir_array;
+}
 
 }

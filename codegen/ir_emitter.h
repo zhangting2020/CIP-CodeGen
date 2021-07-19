@@ -13,30 +13,34 @@
 // limitations under the License.
 #pragma once
 #include "mlo_visitor_base.h"
+#include "llvm/IR/IRBuilder.h"
+#include "shedule_wrapper.h"
 
 namespace cip{
 
 //Abstract base class for translating MLO instruction to LLVM IR
 
-class IrEmitter : public MloVisitorBase{
+class IrEmitter : public MloVisitorBase<const MloInstruction*>{
 public:
-    IrEmitter(){}
+    IrEmitter(llvm::Module* module):llvm_module_(module){}
     ~IrEmitter(){}
 
-    virtual Status HandleElementwiseUnary(MloInstruction* mlo) = 0;
-    virtual Status HandleElementwiseBinary(MloInstruction* mlo) = 0;
+    Status Visit(const MloInstruction* mlo);
+
+    virtual Status HandleElementwiseUnary(const MloInstruction* mlo) = 0;
+    virtual Status HandleElementwiseBinary(const MloInstruction* mlo) = 0;
 
     //Unary
-    virtual Status HandleCast(MloInstruction* mlo) = 0;
-    virtual Status HandleCopy(MloInstruction* mlo) = 0;
-    virtual Status HandleExp(MloInstruction* mlo) = 0;
-    virtual Status HandleLog(MloInstruction* mlo) = 0;
-    virtual Status HandleSqrt(MloInstruction* mlo) = 0;
-    virtual Status HandleRsqrt(MloInstruction* mlo) = 0;
-    virtual Status HandleNegative(MloInstruction* mlo) = 0;
+    virtual Status HandleCast(const MloInstruction* mlo) = 0;
+    virtual Status HandleCopy(const MloInstruction* mlo) = 0;
+    virtual Status HandleExp(const MloInstruction* mlo) = 0;
+    virtual Status HandleLog(const MloInstruction* mlo) = 0;
+    virtual Status HandleSqrt(const MloInstruction* mlo) = 0;
+    virtual Status HandleRsqrt(const MloInstruction* mlo) = 0;
+    virtual Status HandleNegative(const MloInstruction* mlo) = 0;
 
     //Binary
-    virtual Status HandleAdd(MloInstruction* mlo) = 0;
+    Status HandleAdd(const MloInstruction* mlo);
     virtual Status HandleSubtract(MloInstruction* mlo) = 0;
     virtual Status HandleMultiply(MloInstruction* mlo) = 0;
     virtual Status HandleDivide(MloInstruction* mlo) = 0;
@@ -54,6 +58,10 @@ public:
 
     virtual Status HandleConcat(MloInstruction* mlo) = 0;
     virtual Status HandleSlice(MloInstruction* mlo) = 0;
+
+protected:
+    llvm::Module *llvm_module_{ nullptr };
+    std::vector<ScheduleWrapper> schedule_wrappers_;
 };
 
 }

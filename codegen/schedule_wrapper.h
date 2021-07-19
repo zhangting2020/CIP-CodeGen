@@ -13,17 +13,25 @@
 // limitations under the License.
 #pragma once
 
-#include "codegen/gpu/gpu_ir_emitter.h"
+#include <vector>
+#include <string>
+#include "execution_stream.h"
 
 namespace cip {
 
-namespace gpu {
+struct ScheduleParams{
 
-class NvptxIrEmitter : public GpuIrEmitter {
-public:
-    
-private:
 };
 
-}
+class ScheduleWrapper{
+public:
+    Status Run(const ExecutionStream&);
+protected:
+    std::string kernel_name_;
+    ScheduleParams schedule_params_;
+};
+
+using Schedules = std::vector<ScheduleWrapper>;
+
+
 }

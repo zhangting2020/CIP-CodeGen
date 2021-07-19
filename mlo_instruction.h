@@ -14,18 +14,37 @@
 #pragma once
 
 #include "status.h"
+#include <string>
 
 namespace cip {
 
-enum OpCode {
+enum MloOpCode {
+    kAdd = 0,
+    kSubtract,
+    kMultiply,
+    kDivide,
+    kCompare,
+    kMinimum,
+    kMaximum,
+    kLog,
+    kExp,
+    kSqrt,
+    kRsqrt,
+    kSelect
+};
 
-}
+class MloVisitorBase;
+class Shape;
 
 class MloInstruction {
 public:
-
+    Status Accept(MloVisitorBase* visitor);
 private:
+    friend class MloVisitorBase;
 
+    Shape shape_;
+    MloOpCode mlo_op_code_;
+    std::string mlo_op_name_;
 };
 
 }

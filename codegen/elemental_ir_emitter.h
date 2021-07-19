@@ -16,6 +16,7 @@
 #include <vector>
 #include "codegen/mlo_visitor_base.h"
 #include "elemental_body_generator.h"
+#include "llvm/IR/IRBuilder.h"
 
 namespace cip {
 
@@ -24,8 +25,10 @@ public:
     ElementalIrEmitter(){}
     ~ElementalIrEmitter(){}
 
-    virtual Status HandleElementwiseUnary(MloInstruction* mlo) = 0;
-    virtual Status HandleElementwiseBinary(MloInstruction* mlo) = 0;
+    virtual Status Visit(const MloInstruction* mlo);
+
+    virtual Status HandleElementwiseUnary(const MloInstruction* mlo) = 0;
+    virtual Status HandleElementwiseBinary(const MloInstruction* mlo) = 0;
 
     //Unary
     virtual Status HandleCast(MloInstruction* mlo) = 0;
@@ -37,7 +40,7 @@ public:
     virtual Status HandleNegative(MloInstruction* mlo) = 0;
 
     //Binary
-    virtual Status HandleAdd(MloInstruction* mlo) = 0;
+    Status HandleAdd(MloInstruction* mlo);
     virtual Status HandleSubtract(MloInstruction* mlo) = 0;
     virtual Status HandleMultiply(MloInstruction* mlo) = 0;
     virtual Status HandleDivide(MloInstruction* mlo) = 0;
@@ -56,13 +59,19 @@ public:
     virtual Status HandleConcat(MloInstruction* mlo) = 0;
     virtual Status HandleSlice(MloInstruction* mlo) = 0;
 
-    //算子的定义 我们还需要讨论一下 也许不用这样做
     //operator
-    virtual llvm::Value* ThreadIdx();
-    virtual llvm::Value* ThreadIdy();
-    virtual llvm::Value* BlockIdx();
-    virtual llvm::Value* BlockIdy();
-    virtual void ThreadSync();
+    //about the base code block,
+    virtual llvm::Value* ThreadIdx(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* ThreadIdy(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* ThreadIdz(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockDimx(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockDimy(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockDimz(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockIdx(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockIdy(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockIdz(llvm::IRBuilder* ir_builder) = 0;
+    virtual void ThreadSync(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* Alloca(llvm::IRBuilder* ir_builder) = 0;
 
     virtual llvm::Value* BlockRead(llvm::Value* base, llvm::Value* offset,Type *Ty) = 0;
     virtual llvm::value* ThreadRead(llvm::Value* base, llvm::Value* offset,Type *Ty) = 0;
@@ -70,26 +79,27 @@ public:
     virtual void BlockWrite(llvm::Value*,llvm::Value* base, llvm::Value* offset,Type *Ty) = 0;
     virtual void ThreadWrite(llvm::Value*,llvm::Value* base, llvm::Value* offset,Type *Ty) = 0;
 
-    virtual llvm::Value* Assign(llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Exp(llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Log(llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Negative(llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Rsqrt(llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Sqrt(llvm::Value*,Type *Ty) = 0;
+    virtual llvm::Value* Assign(llvm::Value*) = 0;
+    virtual llvm::Value* Exp(llvm::Value*) = 0;
+    virtual llvm::Value* Log(llvm::Value*) = 0;
+    virtual llvm::Value* Negative(llvm::Value*) = 0;
+    virtual llvm::Value* Rsqrt(llvm::Value*) = 0;
+    virtual llvm::Value* Sqrt(llvm::Value*) = 0;
 
-    virtual llvm::Value* Add(llvm::Value*,llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Subtract(llvm::Value*,llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Multiply(llvm::Value*,llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Divide(llvm::Value*,llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Maximum(llvm::Value*,llvm::Value*,Type *Ty) = 0;
-    virtual llvm::Value* Minimum(llvm::Value*,llvm::Value*,Type *Ty) = 0;
+    virtual llvm::Value* Add(llvm::Value*, llvm::Value*) = 0;
+    virtual llvm::Value* Subtract(llvm::Value*, llvm::Value*) = 0;
+    virtual llvm::Value* Multiply(llvm::Value*, llvm::Value*) = 0;
+    virtual llvm::Value* Divide(llvm::Value*, llvm::Value*) = 0;
+    virtual llvm::Value* Maximum(llvm::Value*, llvm::Value*) = 0;
+    virtual llvm::Value* Minimum(llvm::Value*, llvm::Value*) = 0;
 
-    virtual llvm::Value* TypeCast(llvm::Value*,Type * ,llvm::Value*,Type *) = 0;
-    virtual llvm::Value* Select(llvm::Value*,llvm::Value*,llvm::Value*,Type *) = 0;
+    virtual llvm::Value* TypeCast(llvm::Value*, Type *, llvm::Value*, Type *) = 0;
+    virtual llvm::Value* Select(llvm::Value*, llvm::Value*, llvm::Value*) = 0;
 
-    std::vector<ElementalBodyGenerator> GetOrderdGenerator();
-private:
-    std::vector<ElementalBodyGenerator> generators;
+    std::vector<ElementalBodyGenerator>& Handle(MloInstruction* mlo);
+    std::vector<ElementalBodyGenerator>& GetBodyGenerators();
+protected:
+    std::vector<ElementalBodyGenerator> body_generators_;
 };
 
 }

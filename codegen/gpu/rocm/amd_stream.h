@@ -11,9 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#pragma once
 
-#include "elemental_ir_emitter.h"
+#include "execution_stream.h"
 
-namespace cip {
-    
+namespace cip{
+namespace gpu{
+class AmdStream : public ExecutionStream{
+public:
+
+private:
+};
+}
 }

@@ -37,13 +37,9 @@ class Compiler {
 public:
     virtual ~Compiler() {}
 
-    virtual Executable* run(MloModule* mlo_module);
-    virtual void CompileModuleToLlvmIr();
-    virtual void CompileLlvmIrToBinary();
-private:
-    llvm::LLVMContext* llvm_context;
-    llvm::Module* llvm_module;
-    llvm::IRBuilder<>* llvm_builder;
+    virtual Executable* Compile(MloModule* mlo_module);
+    virtual Status CompileModuleToLlvmIr(MloModule*, llvm::Module*, Schedules*);
+    virtual Status CompileLlvmIrToBinary(const llvm::Module*);
 };
 
 }

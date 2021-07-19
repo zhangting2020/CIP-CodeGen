@@ -20,42 +20,45 @@ namespace cip {
 
 //A Mlo Instruction Visitor
 
+template<class InstructionPtr>
 class MloVisitorBase {
 public:
     MloVisitorBase(){}
     ~MloVisitorBase(){}
 
-    virtual Status HandleElementwiseUnary(MloInstruction* mlo) = 0;
-    virtual Status HandleElementwiseBinary(MloInstruction* mlo) = 0;
+    virtual Status Visit(InstructionPtr *mlo) = 0;
+
+    virtual Status HandleElementwiseUnary(InstructionPtr* mlo) = 0;
+    virtual Status HandleElementwiseBinary(InstructionPtr* mlo) = 0;
 
     //Unary
-    virtual Status HandleCast(MloInstruction* mlo) = 0;
-    virtual Status HandleCopy(MloInstruction* mlo) = 0;
-    virtual Status HandleExp(MloInstruction* mlo) = 0;
-    virtual Status HandleLog(MloInstruction* mlo) = 0;
-    virtual Status HandleSqrt(MloInstruction* mlo) = 0;
-    virtual Status HandleRsqrt(MloInstruction* mlo) = 0;
-    virtual Status HandleNegative(MloInstruction* mlo) = 0;
+    virtual Status HandleCast(InstructionPtr* mlo) = 0;
+    virtual Status HandleCopy(InstructionPtr* mlo) = 0;
+    virtual Status HandleExp(InstructionPtr* mlo) = 0;
+    virtual Status HandleLog(InstructionPtr* mlo) = 0;
+    virtual Status HandleSqrt(InstructionPtr* mlo) = 0;
+    virtual Status HandleRsqrt(InstructionPtr* mlo) = 0;
+    virtual Status HandleNegative(InstructionPtr* mlo) = 0;
 
     //Binary
-    virtual Status HandleAdd(MloInstruction* mlo) = 0;
-    virtual Status HandleSubtract(MloInstruction* mlo) = 0;
-    virtual Status HandleMultiply(MloInstruction* mlo) = 0;
-    virtual Status HandleDivide(MloInstruction* mlo) = 0;
-    virtual Status HandleMaximum(MloInstruction* mlo) = 0;
-    virtual Status HandleMiniMum(MloInstruction* mlo) = 0;
-    virtual Status HandleCompare(MloInstruction* mlo) = 0;
+    virtual Status HandleAdd(InstructionPtr* mlo) = 0;
+    virtual Status HandleSubtract(InstructionPtr* mlo) = 0;
+    virtual Status HandleMultiply(InstructionPtr* mlo) = 0;
+    virtual Status HandleDivide(InstructionPtr* mlo) = 0;
+    virtual Status HandleMaximum(InstructionPtr* mlo) = 0;
+    virtual Status HandleMiniMum(InstructionPtr* mlo) = 0;
+    virtual Status HandleCompare(InstructionPtr* mlo) = 0;
 
     //other
-    virtual Status HandleBroadcast(MloInstruction* mlo) = 0;
-    virtual Status HandleReduce(MloInstruction* mlo) = 0;
-    virtual Status HandleReshape(MloInstruction* mlo) = 0;
-    virtual Status HandleRng(MloInstruction* mlo) = 0;
-    virtual Status HandleSelect(MloInstruction* mlo) = 0;
-    virtual Status HandleTranspose(MloInstruction* mlo) = 0;
+    virtual Status HandleBroadcast(InstructionPtr* mlo) = 0;
+    virtual Status HandleReduce(InstructionPtr* mlo) = 0;
+    virtual Status HandleReshape(InstructionPtr* mlo) = 0;
+    virtual Status HandleRng(InstructionPtr* mlo) = 0;
+    virtual Status HandleSelect(InstructionPtr* mlo) = 0;
+    virtual Status HandleTranspose(InstructionPtr* mlo) = 0;
 
-    virtual Status HandleConcat(MloInstruction* mlo) = 0;
-    virtual Status HandleSlice(MloInstruction* mlo) = 0;
+    virtual Status HandleConcat(InstructionPtr* mlo) = 0;
+    virtual Status HandleSlice(InstructionPtr* mlo) = 0;
 };
 
 }
