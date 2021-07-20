@@ -19,6 +19,13 @@
 namespace cip {
 
 //A Mlo Instruction Visitor
+/*
+// 根据resnet50和bert模型所使用的算子进行低层IR指令选择enum class MetaOpCode {  
+    // 复杂算子  Convolution,  Pooling,  PoolingGrad,  Dot,  BatchNormalzationInference,  BatchNormalzationTraining,  BatchNormGrad,  
+    // 一元算子  Copy,  Cast,  Log,  Exp,  Rsqrt,  Negative,  Sqrt,  
+    // 二元算子  Add,  Subtract,  Multiply,  Divide,  Minimum,  Maximum,  Compare,  
+    // 其他元算子  Broadcast,  Reshape,  Rng,  Slice,  Concat,  Transpose,  Reduce,  Select,};
+*/
 
 template<class InstructionPtr>
 class MloVisitorBase {
@@ -30,6 +37,15 @@ public:
 
     virtual Status HandleElementwiseUnary(InstructionPtr* mlo) = 0;
     virtual Status HandleElementwiseBinary(InstructionPtr* mlo) = 0;
+
+    //AI api
+    virtual Status HandleConvolution(InstructionPtr* mlo) = 0;
+    virtual Status HandlePooling(InstructionPtr* mlo) = 0;
+    virtual Status HandlePoolingGrad(InstructionPtr* mlo) = 0;
+    virtual Status HandleDot(InstructionPtr* mlo) = 0;
+    virtual Status HandleBatchNormalzationTraining(InstructionPtr* mlo) = 0;
+    virtual Status HandleBatchNormGrad(InstructionPtr* mlo) = 0;
+    virtual Status HandleBatchNormalzationInference(InstructionPtr* mlo) = 0;
 
     //Unary
     virtual Status HandleCast(InstructionPtr* mlo) = 0;

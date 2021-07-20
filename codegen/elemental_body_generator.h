@@ -46,17 +46,3 @@ private:
     std::string generator_type_;
     Generator generator_;
 };
-
-
-template<typename  T>
-IrArray BuildIrArray(T value) {
-
-}
-
-template<typename  T, typename  ...Ts>
-IrArray BuildIrArray(T first, Ts rest){
-    IrArray ir_array;// = {args};
-    return ir_array;
-}
-
-}

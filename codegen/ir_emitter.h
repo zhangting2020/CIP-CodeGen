@@ -25,10 +25,19 @@ public:
     IrEmitter(llvm::Module* module):llvm_module_(module){}
     ~IrEmitter(){}
 
-    Status Visit(const MloInstruction* mlo);
+    Status Visit(const MloInstruction* mlo) override;
 
     virtual Status HandleElementwiseUnary(const MloInstruction* mlo) = 0;
     virtual Status HandleElementwiseBinary(const MloInstruction* mlo) = 0;
+
+    //AI api
+    virtual Status HandleConvolution(const MloInstruction* mlo) = 0;
+    virtual Status HandlePooling(const MloInstruction* mlo) = 0;
+    virtual Status HandlePoolingGrad(const MloInstruction* mlo) = 0;
+    virtual Status HandleDot(const MloInstruction* mlo) = 0;
+    virtual Status HandleBatchNormalzationTraining(const MloInstruction* mlo) = 0;
+    virtual Status HandleBatchNormGrad(const MloInstruction* mlo) = 0;
+    virtual Status HandleBatchNormalzationInference(const MloInstruction* mlo) = 0;
 
     //Unary
     virtual Status HandleCast(const MloInstruction* mlo) = 0;
@@ -40,28 +49,27 @@ public:
     virtual Status HandleNegative(const MloInstruction* mlo) = 0;
 
     //Binary
-    Status HandleAdd(const MloInstruction* mlo);
-    virtual Status HandleSubtract(MloInstruction* mlo) = 0;
-    virtual Status HandleMultiply(MloInstruction* mlo) = 0;
-    virtual Status HandleDivide(MloInstruction* mlo) = 0;
-    virtual Status HandleMaximum(MloInstruction* mlo) = 0;
-    virtual Status HandleMiniMum(MloInstruction* mlo) = 0;
-    virtual Status HandleCompare(MloInstruction* mlo) = 0;
+    virtual Status HandleAdd(const MloInstruction* mlo) = 0;
+    virtual Status HandleSubtract(const MloInstruction* mlo) = 0;
+    virtual Status HandleMultiply(const MloInstruction* mlo) = 0;
+    virtual Status HandleDivide(const MloInstruction* mlo) = 0;
+    virtual Status HandleMaximum(const MloInstruction* mlo) = 0;
+    virtual Status HandleMiniMum(const MloInstruction* mlo) = 0;
+    virtual Status HandleCompare(const MloInstruction* mlo) = 0;
 
     //other
-    virtual Status HandleBroadcast(MloInstruction* mlo) = 0;
-    virtual Status HandleReduce(MloInstruction* mlo) = 0;
-    virtual Status HandleReshape(MloInstruction* mlo) = 0;
-    virtual Status HandleRng(MloInstruction* mlo) = 0;
-    virtual Status HandleSelect(MloInstruction* mlo) = 0;
-    virtual Status HandleTranspose(MloInstruction* mlo) = 0;
+    virtual Status HandleBroadcast(const MloInstruction* mlo) = 0;
+    virtual Status HandleReduce(const MloInstruction* mlo) = 0;
+    virtual Status HandleReshape(const MloInstruction* mlo) = 0;
+    virtual Status HandleRng(const MloInstruction* mlo) = 0;
+    virtual Status HandleSelect(const MloInstruction* mlo) = 0;
+    virtual Status HandleTranspose(const MloInstruction* mlo) = 0;
 
-    virtual Status HandleConcat(MloInstruction* mlo) = 0;
-    virtual Status HandleSlice(MloInstruction* mlo) = 0;
-
+    virtual Status HandleConcat(const MloInstruction* mlo) = 0;
+    virtual Status HandleSlice(const MloInstruction* mlo) = 0;
 protected:
-    llvm::Module *llvm_module_{ nullptr };
-    std::vector<ScheduleWrapper> schedule_wrappers_;
+    llvm::Module* llvm_module_;
+    Schedules* schedules;
 };
 
 }
