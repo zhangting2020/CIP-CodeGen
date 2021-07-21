@@ -13,13 +13,18 @@
 // limitations under the License.
 #pragma once
 
-#include "codegen/elemental_ir_emitter.h"
+#include "codegen/primitive_ir_emitter.h"
 
 namespace cip {
 namespace gpu {
 
 class GpuPrimitiveIrEmitter : public PrimitiveIrEmitter{
 public:
+    virtual std::function<llvm::value*(llvm::value*, llvm::value*, llvm::IRBuilder<>*)> 
+        GetBinaryOp(const MloInstruction* mlo);
+    virtual std::function<llvm::value*(llvm::value*, llvm::IRBuilder<>*)> 
+        GetUnaryyOp(const MloInstruction* mlo);
+
     Status HandleElementwiseUnary(MloInstruction* mlo) override;
     Status HandleElementwiseBinary(MloInstruction* mlo) override;
 

@@ -12,22 +12,95 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gpu_elemental_ir_emitter.h"
+#include "gpu_primitive_ir_emitter.h"
 
 namespace cip {
 
 namespace gpu {
 
-Status GpuPrimitiveIrEmitter::HandleElementwiseUnary(MloInstruction* mlo) {
-
+std::function<llvm::value*(llvm::value*,llvm::value*,llvm::IRBuilder<>*)> 
+    GpuPrimitiveIrEmitter::GetBinaryOp(const MloInstruction* mlo) {
+    return [mlo](llvm::value* left,llvm::value* right,llvm::IRBuilder<>* llvm_builder) {
+         switch(mlo->OpCode()) {
+             case MloOpCode::kAdd:
+                llvm_builder->CreateFadd(llvm_values[0], llvm_values[1]);
+         }
+    }
 }
 
-Status GpuPrimitiveIrEmitter::HandleElementwiseBinary(MloInstruction* mlo) {
-
+std::function<llvm::value*(llvm::value*,llvm::IRBuilder<>*)> 
+    GpuPrimitiveIrEmitter::GetUnaryyOp(const MloInstruction* mlo) {
+    return [mlo](llvm::value* left,llvm::value* right,llvm::IRBuilder<>* llvm_builder) {
+         switch(mlo->OpCode()) {
+             case MloOpCode::kLog:
+                llvm_builder->CreateFadd(llvm_values[0], llvm_values[1]);
+         }
+    }
 }
 
+Status PrimitiveIrEmitter::HandleElementwiseBinary(const MloInstruction* mlo) {
+     //read
+    body_generators_.empalce_back("Read_" + mlo->mlo_op_name_, "READ", [this](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
+        return IrArray{llvm_builder->CreateLoad(llvm_values[0]), llvm_builder->CreateLoad(llvm_values[1])};
+    });
 
+    //compute
+    body_generators_.empalce_back("Read_" + mlo->mlo_op_name_, "COMPUTE", [this, mlo](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
+        return IrArray{GetBinaryOp(mlo)(llvm_values[0], llvm_values[1], llvm_builder)};
+    });
 
+    //store
+    body_generators_.empalce_back("Store_" + mlo->mlo_op_name_, "STORE", [this](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
+        return IrArray{llvm_builder->CreateStore(llvm_values[0], llvm_values[1])};
+    });
+
+    return Status();
+}
+
+Status PrimitiveIrEmitter::HandleElementwiseUnary(const MloInstruction* mlo) {
+     //read
+    body_generators_.empalce_back("Read_" + mlo->mlo_op_name_, "READ", [this](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
+        return IrArray{llvm_builder->CreateLoad(llvm_values[0])};
+    });
+
+    //compute
+    body_generators_.empalce_back("Read_" + mlo->mlo_op_name_, "COMPUTE", [this, mlo](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
+        return IrArray{GetUnaryOp(mlo)(llvm_values[0], llvm_builder)};
+    });
+
+    //store
+    body_generators_.empalce_back("Store_" + mlo->mlo_op_name_, "STORE", [this](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
+        return IrArray{llvm_builder->CreateStore(llvm_values[0], llvm_values[1])};
+    });
+
+    return Status();
+}
+
+//others
+Status GpuPrimitiveIrEmitter::HandleBroadcast(const MloInstruction* mlo) {
+    return Status();
+}
+Status GpuPrimitiveIrEmitter::HandleReduce(const MloInstruction* mlo) {
+    return Status();
+}
+Status GpuPrimitiveIrEmitter::HandleReshape(const MloInstruction* mlo) {
+    return Status();
+}
+Status GpuPrimitiveIrEmitter::HandleRng(const MloInstruction* mlo) {
+    return Status();
+}
+Status GpuPrimitiveIrEmitter::HandleSelect(const MloInstruction* mlo) {
+    return Status();
+}
+Status GpuPrimitiveIrEmitter::HandleTranspose(const MloInstruction* mlo) {
+    return Status();
+}
+Status GpuPrimitiveIrEmitter::HandleConcat(const MloInstruction* mlo) {
+    return Status();
+}
+Status GpuPrimitiveIrEmitter::HandleSlice(const MloInstruction* mlo) {
+    return Status();
+}
 
 }
 

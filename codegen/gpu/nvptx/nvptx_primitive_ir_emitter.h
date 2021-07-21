@@ -13,32 +13,31 @@
 // limitations under the License.
 #pragma once
 
-#include "codegen/gpu/gpu_elemental_ir_emitter.h"
+#include "codegen/gpu/gpu_primitive_ir_emitter.h"
 
 namespace cip {
 namespace gpu {
 
 class NvptxPrimitiveIrEmitter : public GpuPrimitiveIrEmitter{
 public:
-    NvptxElementalIrEmitter(){}
-    ~NvptxElementalIrEmitter(){}
+    NvptxPrimitiveIrEmitter(){}
+    ~NvptxPrimitiveIrEmitter(){}
 
-    llvm::Value* ThreadIdx() override;
-    llvm::Value* ThreadIdy() override;
-    llvm::Value* ThreadIdy() override;
-    llvm::Value* ThreadIdz() override;
-    llvm::Value* BlockDimx() override;
-    llvm::Value* BlockDimy() override;
-    llvm::Value* BlockDimz() override;
-    llvm::Value* BlockIdx() override;
-    llvm::Value* BlockIdy() override;
-    llvm::Value* BlockIdz() override;
-    void ThreadSync() override;
+    std::function<llvm::value*(llvm::value*, llvm::IRBuilder<>*)> 
+        GetUnaryyOp(const MloInstruction* mlo) override;
 
-    llvm::Value* Rsqrt(llvm::Value*) override;
-    llvm::Value* Sqrt(llvm::Value*) override;
-
-    llvm::Value* TypeCast(llvm::Value*, Type *, llvm::Value*, Type *) override;
+    //about the base code block,
+    llvm::Value* ThreadIdx(llvm::IRBuilder* ir_builder) override;
+    llvm::Value* ThreadIdy(llvm::IRBuilder* ir_builder) override;
+    llvm::Value* ThreadIdz(llvm::IRBuilder* ir_builder) override;
+    llvm::Value* BlockDimx(llvm::IRBuilder* ir_builder) override;
+    llvm::Value* BlockDimy(llvm::IRBuilder* ir_builder) override;
+    llvm::Value* BlockDimz(llvm::IRBuilder* ir_builder) override;
+    llvm::Value* BlockIdx(llvm::IRBuilder* ir_builder) override;
+    llvm::Value* BlockIdy(llvm::IRBuilder* ir_builder) override;
+    llvm::Value* BlockIdz(llvm::IRBuilder* ir_builder) override;
+    void ThreadSync(llvm::IRBuilder* ir_builder) override;
+    llvm::Value* Alloca(llvm::IRBuilder* ir_builder) override;
 };
 
 }

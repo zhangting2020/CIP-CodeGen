@@ -24,9 +24,9 @@ Status GpuIrEmitter::HandleElementwiseUnary(const MloInstruction* mlo) {
 
 Status GpuIrEmitter::HandleElementwiseBinary(const MloInstruction* mlo) {
     //get body generator
-    ElementalIrEmitter elemental_ir_emitter;
-    elemental_ir_emitter.HanddleAdd(MloInstruction);
-    auto body_generators = elemental_ir_emitter.GetBodyGenerators();
+    PrimitiveIrEmitter primitive_ir_emitter;
+    primitive_ir_emitter.HanddleAdd(MloInstruction);
+    auto body_generators = primitive_ir_emitter.GetBodyGenerators();
 
     //create llvm ir function
     auto context = llvm_module_->getContext();

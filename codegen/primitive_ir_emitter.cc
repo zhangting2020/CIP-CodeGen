@@ -57,34 +57,6 @@ Status PrimitiveIrEmitter::Visit(const MloInstruction* mlo) {
 #undef SWITCH 
 }
 
-std::function<llvm::value*(llvm::value*,llvm::value*,llvm::IRBuilder<>*)> GetBinaryOp(const MloInstruction* mlo) {
-    return [mlo](llvm::value* left,llvm::value* right,llvm::IRBuilder<>* llvm_builder) {
-         switch(mlo->OpCode()) {
-             case MloOpCode::Add:
-                llvm_builder->CreateFadd(llvm_values[0], llvm_values[1]);
-         }
-    }
-}
-
-Status PrimitiveIrEmitter::HandleElementwiseBinary(const MloInstruction* mlo) {
-     //read
-    body_generators_.empalce_back("Read_" + mlo->mlo_op_name_, "READ", [this](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
-        return IrArray{llvm_builder->CreateLoad(llvm_values[0]), llvm_builder->CreateLoad(llvm_values[1])};
-    });
-
-    //compute
-    body_generators_.empalce_back("Read_" + mlo->mlo_op_name_, "COMPUTE", [this, mlo](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
-        return IrArray{GetBinaryOp(mlo)(llvm_values[0], llvm_values[1], llvm_builder)};
-    });
-
-    //store
-    body_generators_.empalce_back("Store_" + mlo->mlo_op_name_, "STORE", [this](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
-        return IrArray{llvm_builder->CreateStore(llvm_values[0], llvm_values[1])};
-    });
-
-    return Status();
-}
-
 Status PrimitiveIrEmitter::HandleCast(const MloInstruction* mlo) {
     return HandleElementwiseUnary(mlo);
 }
@@ -130,5 +102,30 @@ Status PrimitiveIrEmitter::HandleCompare(const MloInstruction* mlo) {
     return HandleElementwiseBinary(mlo);
 }
 
+//others
+Status PrimitiveIrEmitter::HandleBroadcast(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status PrimitiveIrEmitter::HandleReduce(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status PrimitiveIrEmitter::HandleReshape(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status PrimitiveIrEmitter::HandleRng(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status PrimitiveIrEmitter::HandleSelect(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status PrimitiveIrEmitter::HandleTranspose(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status PrimitiveIrEmitter::HandleConcat(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status PrimitiveIrEmitter::HandleSlice(const MloInstruction* mlo) {
+    //Unimplemented();
+}
 
 }

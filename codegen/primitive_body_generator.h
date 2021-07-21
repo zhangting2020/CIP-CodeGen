@@ -42,15 +42,19 @@ public:
     std::string GetName() {
         return generator_name_;
     }
+
     std::string GetType() {
         generator_type_
     }
+
     Generator& GetGenerator() {
         return  generator_;
     }
+
     IrArray Run(const IrArray& ir_array, llvm::IRBuilder *ir_builder) {
         return generator_(ir_array, ir_builder);
     }
+
 private:
     std::string generator_name_;
     std::string generator_type_;

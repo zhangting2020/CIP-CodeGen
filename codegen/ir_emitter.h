@@ -19,7 +19,6 @@
 namespace cip{
 
 //Abstract base class for translating MLO instruction to LLVM IR
-
 class IrEmitter : public MloVisitorBase<const MloInstruction*>{
 public:
     IrEmitter(llvm::Module* llvm_module, Schedules* schedule)
