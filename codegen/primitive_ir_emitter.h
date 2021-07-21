@@ -20,7 +20,7 @@
 
 namespace cip {
 
-class ElementalIrEmitter : public MloVisitorBase {
+class PrimitiveIrEmitter : public MloVisitorBase {
 public:
     ElementalIrEmitter(){}
     ~ElementalIrEmitter(){}
@@ -31,31 +31,31 @@ public:
     virtual Status HandleElementwiseBinary(const MloInstruction* mlo) = 0;
 
     //AI api
-    virtual Status HandleConvolution(const MloInstruction* mlo) = 0;
-    virtual Status HandlePooling(const MloInstruction* mlo) = 0;
-    virtual Status HandlePoolingGrad(const MloInstruction* mlo) = 0;
-    virtual Status HandleDot(const MloInstruction* mlo) = 0;
-    virtual Status HandleBatchNormalzationTraining(const MloInstruction* mlo) = 0;
-    virtual Status HandleBatchNormGrad(const MloInstruction* mlo) = 0;
-    virtual Status HandleBatchNormalzationInference(const MloInstruction* mlo) = 0;
+    Status HandleConvolution(const MloInstruction* mlo) override {};
+    Status HandlePooling(const MloInstruction* mlo) override {};
+    Status HandlePoolingGrad(const MloInstruction* mlo) override {};
+    Status HandleDot(const MloInstruction* mlo) override {};
+    Status HandleBatchNormalzationTraining(const MloInstruction* mlo) override {};
+    Status HandleBatchNormGrad(const MloInstruction* mlo) override {};
+    Status HandleBatchNormalzationInference(const MloInstruction* mlo) override {};
 
     //Unary
-    virtual Status HandleCast(const MloInstruction* mlo) = 0;
-    virtual Status HandleCopy(const MloInstruction* mlo) = 0;
-    virtual Status HandleExp(const MloInstruction* mlo) = 0;
-    virtual Status HandleLog(const MloInstruction* mlo) = 0;
-    virtual Status HandleSqrt(const MloInstruction* mlo) = 0;
-    virtual Status HandleRsqrt(const MloInstruction* mlo) = 0;
-    virtual Status HandleNegative(const MloInstruction* mlo) = 0;
+    Status HandleCast(const MloInstruction* mlo);
+    Status HandleCopy(const MloInstruction* mlo);
+    Status HandleExp(const MloInstruction* mlo);
+    Status HandleLog(const MloInstruction* mlo);
+    Status HandleSqrt(const MloInstruction* mlo);
+    Status HandleRsqrt(const MloInstruction* mlo);
+    Status HandleNegative(const MloInstruction* mlo);
 
     //Binary
-    virtual Status HandleAdd(const MloInstruction* mlo) = 0;
-    virtual Status HandleSubtract(const MloInstruction* mlo) = 0;
-    virtual Status HandleMultiply(const MloInstruction* mlo) = 0;
-    virtual Status HandleDivide(const MloInstruction* mlo) = 0;
-    virtual Status HandleMaximum(const MloInstruction* mlo) = 0;
-    virtual Status HandleMiniMum(const MloInstruction* mlo) = 0;
-    virtual Status HandleCompare(const MloInstruction* mlo) = 0;
+    Status HandleAdd(const MloInstruction* mlo);
+    Status HandleSubtract(const MloInstruction* mlo);
+    Status HandleMultiply(const MloInstruction* mlo);
+    Status HandleDivide(const MloInstruction* mlo);
+    Status HandleMaximum(const MloInstruction* mlo);
+    Status HandleMiniMum(const MloInstruction* mlo);
+    Status HandleCompare(const MloInstruction* mlo);
 
     //other
     virtual Status HandleBroadcast(const MloInstruction* mlo) = 0;
@@ -79,9 +79,9 @@ public:
     virtual llvm::Value* BlockIdx(llvm::IRBuilder* ir_builder) = 0;
     virtual llvm::Value* BlockIdy(llvm::IRBuilder* ir_builder) = 0;
     virtual llvm::Value* BlockIdz(llvm::IRBuilder* ir_builder) = 0;
-    //virtual void ThreadSync(llvm::IRBuilder* ir_builder) = 0;
-    //virtual llvm::Value* Alloca(llvm::IRBuilder* ir_builder) = 0;
+    virtual void ThreadSync(llvm::IRBuilder* ir_builder) = 0;
 
+    //virtual llvm::Value* Alloca(llvm::IRBuilder* ir_builder) = 0;
     /*
     virtual llvm::Value* BlockRead(llvm::Value* base, llvm::Value* offset,Type *Ty) = 0;
     virtual llvm::value* ThreadRead(llvm::Value* base, llvm::Value* offset,Type *Ty) = 0;
@@ -110,7 +110,7 @@ public:
     std::vector<ElementalBodyGenerator>& Handle(MloInstruction* mlo);
     std::vector<ElementalBodyGenerator>& GetBodyGenerators();
 protected:
-    std::vector<ElementalBodyGenerator> body_generators_;
+    std::vector<PrimitiveBodyGenerator> body_generators_;
 };
 
 }

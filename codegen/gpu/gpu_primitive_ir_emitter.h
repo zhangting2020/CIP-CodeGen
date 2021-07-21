@@ -18,28 +18,19 @@
 namespace cip {
 namespace gpu {
 
-class GpuElementalIrEmitter : public ElementalIrEmitter{
+class GpuPrimitiveIrEmitter : public PrimitiveIrEmitter{
 public:
     Status HandleElementwiseUnary(MloInstruction* mlo) override;
     Status HandleElementwiseBinary(MloInstruction* mlo) override;
 
-    //Unary
-    Status HandleCast(MloInstruction* mlo) override;
-    Status HandleCopy(MloInstruction* mlo) override;
-    Status HandleExp(MloInstruction* mlo) override;
-    Status HandleLog(MloInstruction* mlo) override;
-    Status HandleSqrt(MloInstruction* mlo) override;
-    Status HandleRsqrt(MloInstruction* mlo) override;
-    Status HandleNegative(MloInstruction* mlo) override;
-
-    //Binary
-    Status HandleAdd(MloInstruction* mlo) override;
-    Status HandleSubtract(MloInstruction* mlo) override;
-    Status HandleMultiply(MloInstruction* mlo) override;
-    Status HandleDivide(MloInstruction* mlo) override;
-    Status HandleMaximum(MloInstruction* mlo) override;
-    Status HandleMiniMum(MloInstruction* mlo) override;
-    Status HandleCompare(MloInstruction* mlo) override;
+    //AI api
+    virtual Status HandleConvolution(const MloInstruction* mlo);
+    virtual Status HandlePooling(const MloInstruction* mlo);
+    virtual Status HandlePoolingGrad(const MloInstruction* mlo);
+    virtual Status HandleDot(const MloInstruction* mlo);
+    virtual Status HandleBatchNormalzationTraining(const MloInstruction* mlo);
+    virtual Status HandleBatchNormGrad(const MloInstruction* mlo);
+    virtual Status HandleBatchNormalzationInference(const MloInstruction* mlo);
 
     //other
     Status HandleBroadcast(MloInstruction* mlo) override;
@@ -52,10 +43,8 @@ public:
     Status HandleConcat(MloInstruction* mlo) override;
     Status HandleSlice(MloInstruction* mlo) override;
 
-    //operator
-    //operator
     //about the base code block,
-    virtual llvm::Value* ThreadIdx(){};
+    virtual llvm::Value* ThreadIdx();
     virtual llvm::Value* ThreadIdy(){};
     virtual llvm::Value* ThreadIdz(){};
     virtual llvm::Value* BlockDimx(){};
@@ -65,8 +54,9 @@ public:
     virtual llvm::Value* BlockIdy(){};
     virtual llvm::Value* BlockIdz(){};
     virtual void ThreadSync(){};
-    llvm::Value* Alloca(){};
+    //llvm::Value* Alloca(){};
 
+    /*
     llvm::Value* BlockRead(llvm::Value* base, llvm::Value* offset,Type *Ty);
     llvm::value* ThreadRead(llvm::Value* base, llvm::Value* offset,Type *Ty);
 
@@ -89,6 +79,7 @@ public:
 
     virtual llvm::Value* TypeCast(llvm::Value*, Type *, llvm::Value*, Type *){};
     llvm::Value* Select(llvm::Value*, llvm::Value*, llvm::Value*);
+    */
 };
 
 }

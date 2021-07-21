@@ -18,7 +18,7 @@
 namespace cip {
 namespace gpu {
 
-class NvptxElementalIrEmitter : public GpuElementalIrEmitter{
+class NvptxPrimitiveIrEmitter : public GpuPrimitiveIrEmitter{
 public:
     NvptxElementalIrEmitter(){}
     ~NvptxElementalIrEmitter(){}

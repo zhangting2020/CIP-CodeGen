@@ -16,6 +16,6 @@
 namespace cip {
 
 class Status {
-
+    
 };
 }

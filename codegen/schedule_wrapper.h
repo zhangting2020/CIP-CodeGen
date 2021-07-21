@@ -19,7 +19,7 @@
 
 namespace cip {
 
-struct ScheduleParams{
+class ScheduleParams{
 
 };
 
@@ -31,7 +31,6 @@ protected:
     ScheduleParams schedule_params_;
 };
 
-using Schedules = std::vector<ScheduleWrapper>;
-
+using Schedules = std::vector<ScheduleWrapper*>;
 
 }

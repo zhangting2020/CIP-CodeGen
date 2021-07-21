@@ -34,13 +34,23 @@ using Generator = std::function<IrArray(IrArray, llvm::IRBuilder<>* llvm_builder
 
 class ElementalBodyGenerator {
 public:
-    ElementalBodyGenerator(std::string name, std::string type, Generator generator){}
+    ElementalBodyGenerator(std::string name, std::string type, Generator generator)
+      :generator_name_(name), generator_type_(type), generator_(generator){}
+
     ~ElementalBodyGenerator(){}
 
-    std::string GetName();
-    std::string GetType();
-    Generator& GetGenerator();
-    IrArray Run(const IrArray&, llvm::IRBuilder *ir_builder);
+    std::string GetName() {
+        return generator_name_;
+    }
+    std::string GetType() {
+        generator_type_
+    }
+    Generator& GetGenerator() {
+        return  generator_;
+    }
+    IrArray Run(const IrArray& ir_array, llvm::IRBuilder *ir_builder) {
+        return generator_(ir_array, ir_builder);
+    }
 private:
     std::string generator_name_;
     std::string generator_type_;

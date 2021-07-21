@@ -65,81 +65,113 @@ Status IrEmitter::Visit(const MloInstruction* mlo) {
 #undef SWITCH 
 }
 
-
 Status IrEmitter::HandleElementwiseUnary(const MloInstruction* mlo) {
-    //create add kernel
-    //get body generator
-    ElementalIrEmitter elemental_ir_emitter;
-    elemental_ir_emitter.HanddleAdd(MloInstruction);
-    auto body_generators = elemental_ir_emitter.GetBodyGenerators();
-
-    //create llvm ir function
-    auto context = llvm_module_->getContext();
-    static FunctionType* func_type = nullptr;
-    if() { //datatype
-        func_type = TypeBuilder<void,float*,float*,float*,uint32_t>::get(context);
-    } else {
-    }
-
-    llvm_module_->getOrInsertFunction(mlo->mlo_op_code_, *func_type);
-    auto func = llvm_module_->getFunction(mlo->mlo_op_code_);
-    //setting block
-    auto block_num = 1;
-    auto block_size = 1;
-    int loop_factor = 1;
-
-    auto entry_block = BasicBlock::Create(context, "entry", func);
-    IRBuilder<> entry_irbuilder(entry_block);
-
-    auto add_block = BasicBlock::Create(context, "add", func);
-    IRBuilder<> add_irbuilder(add_block);
-
-    auto exit_block = BasicBlock::Create(context, "exit", func);
-    IRBuilder<> exit_irbuilder(exit_block);
-    exit_irbuilder.CreateRetVoid();
-
-    auto args_it = func->arg_begin();
-    Value* arg_a = args_it ++;
-    Value* arg_b = args_it ++;
-    value* arg_c = args_it ++;
-    Value* arg_n = args_it ++;
-
-    auto block_dimx = entry_irbuilder.getInt32(block_size);
-    auto tidx = elemental_ir_emitter.ThreadIdx(&entry_irbuilder);
-    auto bidx = elemental_ir_emitter.BlockIdx(&entry_irbuilder);
-
-    auto _1 = entry_irbuilder.CreateMul(bidx, block_dimx);
-    auto _2 = entry_irbuilder.CreateAdd(_1, tidx);
-
-    auto _3 = entry_irbuilder.CreateICmpULT(_2, arg_n);
-    entry_irbuilder.CreateCondBr(_3, add_irbuilder, exit_irbuilder);
-
-    auto _4 = add_irbuilder.CreateGEP(arg_a, _2);
-    auto _5 = add_irbuilder.CreateGEP(arg_b, _2);
-    auto _6 = add_irbuilder.CreateGEP(arg_c, _2);
-
-    auto vals = body_generators[0].run(IrArray{_4, _5}, add_irbuilder);
-    auto res = body_generators[1].run(vals, add_irbuilder);
-    body_generators[2].run(res, add_irbuilder);
-    add_irbuilder.CreateBr(exit_irbuilder);
-
-    //
-
-    return Status();
-}
-
-Status IrEmitter::HandleElementwiseBinary(const MloInstruction* mlo) {
 
 }
 
-Status IrEmitter::HandleAdd(const MloInstruction* mlo) {
-   
+
+Status IrEmitter::HandleConvolution(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandlePooling(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandlePoolingGrad(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleDot(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleBatchNormalzationTraining(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleBatchNormGrad(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleBatchNormalzationInference(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+
+Status IrEmitter::HandleCast(const MloInstruction* mlo) {
+    return HandleElementwiseUnary(mlo);
+}
+
+Status IrEmitter::HandleCopy(const MloInstruction* mlo) {
+    return HandleElementwiseUnary(mlo);
+}
+
+Status IrEmitter::HandleExp(const MloInstruction* mlo) {
+    return HandleElementwiseUnary(mlo);
+}
+
+Status IrEmitter::HandleLog(const MloInstruction* mlo) {
+    return HandleElementwiseUnary(mlo);
+}
+
+Status IrEmitter::HandleSqrt(const MloInstruction* mlo) {
+    return HandleElementwiseUnary(mlo);
+}
+
+Status IrEmitter::HandleRsqrt(const MloInstruction* mlo) {
+    return HandleElementwiseUnary(mlo);
+}
+
+Status IrEmitter::HandleNegative(const MloInstruction* mlo) {
+    return HandleElementwiseUnary(mlo);
 }
 
 Status IrEmitter::HandleAdd(const MloInstruction* mlo) {
     return HandleElementwiseBinary(mlo);
 }
 
+Status IrEmitter::HandleSubtract(const MloInstruction* mlo) {
+    return HandleElementwiseBinary(mlo);
+}
+
+Status IrEmitter::HandleMultiply(const MloInstruction* mlo) {
+    return HandleElementwiseBinary(mlo);
+}
+
+Status IrEmitter::HandleDivide(const MloInstruction* mlo) {
+    return HandleElementwiseBinary(mlo);
+}
+
+Status IrEmitter::HandleMaximum(const MloInstruction* mlo) {
+    return HandleElementwiseBinary(mlo);
+}
+
+Status IrEmitter::HandleMiniMum(const MloInstruction* mlo) {
+    return HandleElementwiseBinary(mlo);
+}
+
+Status IrEmitter::HandleCompare(const MloInstruction* mlo) {
+    return HandleElementwiseBinary(mlo);
+}
+
+Status IrEmitter::HandleBroadcast(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleReduce(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleReshape(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleRng(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleSelect(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleTranspose(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+
+Status IrEmitter::HandleConcat(const MloInstruction* mlo) {
+    //Unimplemented();
+}
+Status IrEmitter::HandleSlice(const MloInstruction* mlo) {
+    //Unimplemented();
 }
 
 }

@@ -22,7 +22,8 @@ namespace cip{
 
 class IrEmitter : public MloVisitorBase<const MloInstruction*>{
 public:
-    IrEmitter(llvm::Module* module):llvm_module_(module){}
+    IrEmitter(llvm::Module* llvm_module, Schedules* schedule)
+      :llvm_module_(llvm_module), schedules_(schedule){}
     ~IrEmitter(){}
 
     Status Visit(const MloInstruction* mlo) override;
@@ -31,45 +32,45 @@ public:
     virtual Status HandleElementwiseBinary(const MloInstruction* mlo) = 0;
 
     //AI api
-    virtual Status HandleConvolution(const MloInstruction* mlo) = 0;
-    virtual Status HandlePooling(const MloInstruction* mlo) = 0;
-    virtual Status HandlePoolingGrad(const MloInstruction* mlo) = 0;
-    virtual Status HandleDot(const MloInstruction* mlo) = 0;
-    virtual Status HandleBatchNormalzationTraining(const MloInstruction* mlo) = 0;
-    virtual Status HandleBatchNormGrad(const MloInstruction* mlo) = 0;
-    virtual Status HandleBatchNormalzationInference(const MloInstruction* mlo) = 0;
+    virtual Status HandleConvolution(const MloInstruction* mlo);
+    virtual Status HandlePooling(const MloInstruction* mlo);
+    virtual Status HandlePoolingGrad(const MloInstruction* mlo);
+    virtual Status HandleDot(const MloInstruction* mlo);
+    virtual Status HandleBatchNormalzationTraining(const MloInstruction* mlo);
+    virtual Status HandleBatchNormGrad(const MloInstruction* mlo);
+    virtual Status HandleBatchNormalzationInference(const MloInstruction* mlo);
 
     //Unary
-    virtual Status HandleCast(const MloInstruction* mlo) = 0;
-    virtual Status HandleCopy(const MloInstruction* mlo) = 0;
-    virtual Status HandleExp(const MloInstruction* mlo) = 0;
-    virtual Status HandleLog(const MloInstruction* mlo) = 0;
-    virtual Status HandleSqrt(const MloInstruction* mlo) = 0;
-    virtual Status HandleRsqrt(const MloInstruction* mlo) = 0;
-    virtual Status HandleNegative(const MloInstruction* mlo) = 0;
+    virtual Status HandleCast(const MloInstruction* mlo);
+    virtual Status HandleCopy(const MloInstruction* mlo);
+    virtual Status HandleExp(const MloInstruction* mlo);
+    virtual Status HandleLog(const MloInstruction* mlo);
+    virtual Status HandleSqrt(const MloInstruction* mlo);
+    virtual Status HandleRsqrt(const MloInstruction* mlo);
+    virtual Status HandleNegative(const MloInstruction* mlo);
 
     //Binary
-    virtual Status HandleAdd(const MloInstruction* mlo) = 0;
-    virtual Status HandleSubtract(const MloInstruction* mlo) = 0;
-    virtual Status HandleMultiply(const MloInstruction* mlo) = 0;
-    virtual Status HandleDivide(const MloInstruction* mlo) = 0;
-    virtual Status HandleMaximum(const MloInstruction* mlo) = 0;
-    virtual Status HandleMiniMum(const MloInstruction* mlo) = 0;
-    virtual Status HandleCompare(const MloInstruction* mlo) = 0;
+    virtual Status HandleAdd(const MloInstruction* mlo);
+    virtual Status HandleSubtract(const MloInstruction* mlo);
+    virtual Status HandleMultiply(const MloInstruction* mlo);
+    virtual Status HandleDivide(const MloInstruction* mlo);
+    virtual Status HandleMaximum(const MloInstruction* mlo);
+    virtual Status HandleMiniMum(const MloInstruction* mlo);
+    virtual Status HandleCompare(const MloInstruction* mlo);
 
     //other
-    virtual Status HandleBroadcast(const MloInstruction* mlo) = 0;
-    virtual Status HandleReduce(const MloInstruction* mlo) = 0;
-    virtual Status HandleReshape(const MloInstruction* mlo) = 0;
-    virtual Status HandleRng(const MloInstruction* mlo) = 0;
-    virtual Status HandleSelect(const MloInstruction* mlo) = 0;
-    virtual Status HandleTranspose(const MloInstruction* mlo) = 0;
+    virtual Status HandleBroadcast(const MloInstruction* mlo);
+    virtual Status HandleReduce(const MloInstruction* mlo);
+    virtual Status HandleReshape(const MloInstruction* mlo);
+    virtual Status HandleRng(const MloInstruction* mlo);
+    virtual Status HandleSelect(const MloInstruction* mlo);
+    virtual Status HandleTranspose(const MloInstruction* mlo);
 
-    virtual Status HandleConcat(const MloInstruction* mlo) = 0;
-    virtual Status HandleSlice(const MloInstruction* mlo) = 0;
+    virtual Status HandleConcat(const MloInstruction* mlo);
+    virtual Status HandleSlice(const MloInstruction* mlo);
 protected:
     llvm::Module* llvm_module_;
-    Schedules* schedules;
+    Schedules* schedules_;
 };
 
 }

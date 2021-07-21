@@ -34,9 +34,8 @@ public:
     ~MloVisitorBase(){}
 
     virtual Status Visit(InstructionPtr *mlo) = 0;
-
-    virtual Status HandleElementwiseUnary(InstructionPtr* mlo) = 0;
-    virtual Status HandleElementwiseBinary(InstructionPtr* mlo) = 0;
+    //virtual Status HandleElementwiseUnary(InstructionPtr* mlo) = 0;
+    //virtual Status HandleElementwiseBinary(InstructionPtr* mlo) = 0;
 
     //AI api
     virtual Status HandleConvolution(InstructionPtr* mlo) = 0;
