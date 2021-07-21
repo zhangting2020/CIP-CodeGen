@@ -21,7 +21,7 @@ namespace gpu {
 class AmdPrimitiveIrEmitter : public GpuPrimitiveIrEmitter {
 public:
     std::function<llvm::value*(llvm::value*, llvm::IRBuilder<>*)> 
-        GetUnaryyOp(const MloInstruction* mlo) override;
+        GetUnaryOp(const MloInstruction* mlo) override;
 
     //about the base code block,
     llvm::Value* ThreadIdx(llvm::IRBuilder* ir_builder) override;

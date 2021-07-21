@@ -28,15 +28,6 @@ public:
     Status HandleElementwiseUnary(MloInstruction* mlo) override;
     Status HandleElementwiseBinary(MloInstruction* mlo) override;
 
-    //AI api
-    virtual Status HandleConvolution(const MloInstruction* mlo);
-    virtual Status HandlePooling(const MloInstruction* mlo);
-    virtual Status HandlePoolingGrad(const MloInstruction* mlo);
-    virtual Status HandleDot(const MloInstruction* mlo);
-    virtual Status HandleBatchNormalzationTraining(const MloInstruction* mlo);
-    virtual Status HandleBatchNormGrad(const MloInstruction* mlo);
-    virtual Status HandleBatchNormalzationInference(const MloInstruction* mlo);
-
     //other
     Status HandleBroadcast(MloInstruction* mlo) override;
     Status HandleReduce(MloInstruction* mlo) override;

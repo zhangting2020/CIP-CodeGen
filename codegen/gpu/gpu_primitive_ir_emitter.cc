@@ -29,7 +29,7 @@ std::function<llvm::value*(llvm::value*,llvm::value*,llvm::IRBuilder<>*)>
 }
 
 std::function<llvm::value*(llvm::value*,llvm::IRBuilder<>*)> 
-    GpuPrimitiveIrEmitter::GetUnaryyOp(const MloInstruction* mlo) {
+    GpuPrimitiveIrEmitter::GetUnaryOp(const MloInstruction* mlo) {
     return [mlo](llvm::value* left,llvm::value* right,llvm::IRBuilder<>* llvm_builder) {
          switch(mlo->OpCode()) {
              case MloOpCode::kLog:
@@ -38,7 +38,7 @@ std::function<llvm::value*(llvm::value*,llvm::IRBuilder<>*)>
     }
 }
 
-Status PrimitiveIrEmitter::HandleElementwiseBinary(const MloInstruction* mlo) {
+Status GpuPrimitiveIrEmitter::HandleElementwiseBinary(const MloInstruction* mlo) {
      //read
     body_generators_.empalce_back("Read_" + mlo->mlo_op_name_, "READ", [this](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
         return IrArray{llvm_builder->CreateLoad(llvm_values[0]), llvm_builder->CreateLoad(llvm_values[1])};
@@ -57,7 +57,7 @@ Status PrimitiveIrEmitter::HandleElementwiseBinary(const MloInstruction* mlo) {
     return Status();
 }
 
-Status PrimitiveIrEmitter::HandleElementwiseUnary(const MloInstruction* mlo) {
+Status GpuPrimitiveIrEmitter::HandleElementwiseUnary(const MloInstruction* mlo) {
      //read
     body_generators_.empalce_back("Read_" + mlo->mlo_op_name_, "READ", [this](IrArray llvm_values, llvm::IRBuilder<>* llvm_builder){
         return IrArray{llvm_builder->CreateLoad(llvm_values[0])};

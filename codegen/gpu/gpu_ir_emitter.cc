@@ -24,7 +24,7 @@ Status GpuIrEmitter::HandleElementwiseUnary(const MloInstruction* mlo) {
 
 Status GpuIrEmitter::HandleElementwiseBinary(const MloInstruction* mlo) {
     //get body generator
-    PrimitiveIrEmitter primitive_ir_emitter;
+    GpuPrimitiveIrEmitter* primitive_ir_emitter;
     primitive_ir_emitter.HanddleAdd(MloInstruction);
     auto body_generators = primitive_ir_emitter.GetBodyGenerators();
 
@@ -78,6 +78,9 @@ Status GpuIrEmitter::HandleElementwiseBinary(const MloInstruction* mlo) {
     body_generators[2].run(res, add_irbuilder);
     add_irbuilder.CreateBr(exit_irbuilder);
 
+    //Add schedule wrapper
+
+    //
     return Status();
 }
 
