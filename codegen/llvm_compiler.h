@@ -13,24 +13,19 @@
 // limitations under the License.
 #pragma once
 
-#include "codegen/llvm_compiler.h"
+#include "compiler.h"
 
-namespace cip {
-namespace gpu {
+namespace cip{
 
-class GpuExecutable : public Executable {
+class LlvmCompiler : public Compiler {
 public:
-    ~GpuExecutable() override {}
+    virtual ~LlvmCompiler() = 0;
+
+    virtual Executable* Apply(MloModule* mlo_module) {};
+    virtual Executable* Optimize(MloModule* mlo_module) {};
+    virtual Status ConvertToIR(MloModule*, llvm::Module*, Schedules*) {};
+    virtual Status Compile(const llvm::Module*) {};
+
 };
 
-class GpuCompiler : public LlvmCompiler {
-public:
-    ~GpuCompiler() {}
-
-    Executable* Apply(MloModule* mlo_module) override;
-    virtual Executable* Optimize(MloModule* mlo_module);
-    virtual Status ConvertToIR(MloModule*, llvm::Module*, Schedules*);
-    virtual Status Compile(const llvm::Module*);
-};
-}
 }

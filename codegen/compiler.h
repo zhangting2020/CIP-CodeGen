@@ -13,15 +13,6 @@
 // limitations under the License.
 #pragma once
 
-#include "llvm/ExecutionEngine/MCJIT.h"
-#include "llvm/IR/BasicBlock.h"
-#include "llvm/IR/Function.h"
-#include "llvm/IR/IRBuilder.h"
-#include "llvm/IR/LLVMContext.h"
-#include "llvm/IR/Module.h"
-#include "llvm/IR/TypeBuilder.h"
-#include "llvm/Support/TargetSelect.h"
-
 namespace cip {
 
 class MloModule;
@@ -35,11 +26,12 @@ public:
 
 class Compiler {
 public:
-    virtual ~Compiler() {}
+    virtual ~Compiler() = 0;
 
-    virtual Executable* Compile(MloModule* mlo_module);
-    virtual Status CompileModuleToLlvmIr(MloModule*, llvm::Module*, Schedules*);
-    virtual Status CompileLlvmIrToBinary(const llvm::Module*);
+    virtual Executable* Apply(MloModule* mlo_module) = 0;
+    virtual Executable* Optimize(MloModule* mlo_module) = 0;
+    virtual Status ConvertToIR(MloModule*, llvm::Module*, Schedules*)  = 0;
+    virtual Status Compile(const llvm::Module*)  = 0;
 };
 
 }
