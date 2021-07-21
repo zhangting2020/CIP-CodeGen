@@ -32,12 +32,12 @@ namespace cip {
 using IrArray = std::vector<llvm::Value*>;
 using Generator = std::function<IrArray(IrArray, llvm::IRBuilder<>* llvm_builder)>;
 
-class ElementalBodyGenerator {
+class PrimitiveBodyGenerator {
 public:
-    ElementalBodyGenerator(std::string name, std::string type, Generator generator)
+    PrimitiveBodyGenerator(std::string name, std::string type, Generator generator)
       :generator_name_(name), generator_type_(type), generator_(generator){}
 
-    ~ElementalBodyGenerator(){}
+    ~PrimitiveBodyGenerator(){}
 
     std::string GetName() {
         return generator_name_;

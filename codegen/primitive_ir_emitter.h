@@ -15,15 +15,15 @@
 
 #include <vector>
 #include "codegen/mlo_visitor_base.h"
-#include "elemental_body_generator.h"
+#include "primitive_body_generator.h"
 #include "llvm/IR/IRBuilder.h"
 
 namespace cip {
 
 class PrimitiveIrEmitter : public MloVisitorBase {
 public:
-    ElementalIrEmitter(){}
-    ~ElementalIrEmitter(){}
+    PrimitiveIrEmitter(){}
+    ~PrimitiveIrEmitter(){}
 
     Status Visit(const MloInstruction* mlo) override;
 
@@ -70,6 +70,7 @@ public:
 
     //operator
     //about the base code block,
+    /*
     virtual llvm::Value* ThreadIdx(llvm::IRBuilder* ir_builder) = 0;
     virtual llvm::Value* ThreadIdy(llvm::IRBuilder* ir_builder) = 0;
     virtual llvm::Value* ThreadIdz(llvm::IRBuilder* ir_builder) = 0;
@@ -80,8 +81,9 @@ public:
     virtual llvm::Value* BlockIdy(llvm::IRBuilder* ir_builder) = 0;
     virtual llvm::Value* BlockIdz(llvm::IRBuilder* ir_builder) = 0;
     virtual void ThreadSync(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* Alloca(llvm::IRBuilder* ir_builder) = 0;
+    */
 
-    //virtual llvm::Value* Alloca(llvm::IRBuilder* ir_builder) = 0;
     /*
     virtual llvm::Value* BlockRead(llvm::Value* base, llvm::Value* offset,Type *Ty) = 0;
     virtual llvm::value* ThreadRead(llvm::Value* base, llvm::Value* offset,Type *Ty) = 0;
@@ -107,8 +109,8 @@ public:
     virtual llvm::Value* Select(llvm::Value*, llvm::Value*, llvm::Value*) = 0;
     */
 
-    std::vector<ElementalBodyGenerator>& Handle(MloInstruction* mlo);
-    std::vector<ElementalBodyGenerator>& GetBodyGenerators();
+    std::vector<PrimitiveBodyGenerator>& Handle(MloInstruction* mlo);
+    std::vector<PrimitiveBodyGenerator>& GetBodyGenerators();
 protected:
     std::vector<PrimitiveBodyGenerator> body_generators_;
 };

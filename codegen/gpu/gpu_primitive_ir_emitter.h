@@ -44,17 +44,17 @@ public:
     Status HandleSlice(MloInstruction* mlo) override;
 
     //about the base code block,
-    virtual llvm::Value* ThreadIdx();
-    virtual llvm::Value* ThreadIdy(){};
-    virtual llvm::Value* ThreadIdz(){};
-    virtual llvm::Value* BlockDimx(){};
-    virtual llvm::Value* BlockDimy(){};
-    virtual llvm::Value* BlockDimz(){};
-    virtual llvm::Value* BlockIdx(){};
-    virtual llvm::Value* BlockIdy(){};
-    virtual llvm::Value* BlockIdz(){};
-    virtual void ThreadSync(){};
-    //llvm::Value* Alloca(){};
+    virtual llvm::Value* ThreadIdx(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* ThreadIdy(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* ThreadIdz(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockDimx(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockDimy(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockDimz(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockIdx(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockIdy(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* BlockIdz(llvm::IRBuilder* ir_builder) = 0;
+    virtual void ThreadSync(llvm::IRBuilder* ir_builder) = 0;
+    virtual llvm::Value* Alloca(llvm::IRBuilder* ir_builder) = 0;
 
     /*
     llvm::Value* BlockRead(llvm::Value* base, llvm::Value* offset,Type *Ty);
