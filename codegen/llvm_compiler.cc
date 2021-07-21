@@ -13,14 +13,4 @@
 // limitations under the License.
 #pragma once
 
-#include "codegen/elemental_ir_emitter.h"
 
-namespace cip {
-namespace gpu {
-
-class GpuElementalIrEmitter : public ElementalIrEmitter{
-
-};
-
-}
-}

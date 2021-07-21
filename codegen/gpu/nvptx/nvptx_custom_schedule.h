@@ -13,12 +13,15 @@
 // limitations under the License.
 #pragma once
 
-#include "codegen/gpu/gpu_ir_emitter.h"
+#include "schedule_wrapper"
 
 namespace cip {
 namespace gpu {
 
-class AmdIrEmitter : public GpuIrEmitter {
+class NvptxCustomSchedule : public ScheduleWrapper{
+public:
+
+private:
 
 };
 

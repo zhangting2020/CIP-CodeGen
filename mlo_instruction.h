@@ -14,18 +14,62 @@
 #pragma once
 
 #include "status.h"
+#include <string>
+
+/*
+// 根据resnet50和bert模型所使用的算子进行低层IR指令选择enum class MetaOpCode {  
+    // 复杂算子  Convolution,  Pooling,  PoolingGrad,  Dot,  BatchNormalzationInference,  BatchNormalzationTraining,  BatchNormGrad,  
+    // 一元算子  Copy,  Cast,  Log,  Exp,  Rsqrt,  Negative,  Sqrt,  
+    // 二元算子  Add,  Subtract,  Multiply,  Divide,  Minimum,  Maximum,  Compare,  
+    // 其他元算子  Broadcast,  Reshape,  Rng,  Slice,  Concat,  Transpose,  Reduce,  Select,};
+*/
 
 namespace cip {
 
-enum OpCode {
+enum MloOpCode {
+    kConvolution = 0,
+    kPooling,
+    kPoolingGrad,
+    kDot,
+    kBatchNormalzationInference,
+    kBatchNormalzationTraining,
+    kBatchNormGrad,
+    kCopy,
+    kCast,
+    kLog,
+    kExp,
+    kRsqrt,
+    kNegative,
+    kSqrt,
+    kAdd,
+    kSubtract,
+    kMultiply,
+    kDivide,
+    kCompare,
+    kMinimum,
+    kMaximum,
+    kBroadcast,
+    kReshape,
+    kRng,
+    kSlice,
+    kConcat,
+    kReduce,
+    kTranspose,
+    kSelect
+};
 
-}
+class MloVisitorBase;
+class Shape;
 
 class MloInstruction {
 public:
-
+    Status Accept(MloVisitorBase* visitor);
 private:
+    friend class MloVisitorBase;
 
+    Shape shape_;
+    MloOpCode mlo_op_code_;
+    std::string mlo_op_name_;
 };
 
 }

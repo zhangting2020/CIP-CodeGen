@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "elemental_body_generator.h"
+#include "nvptx_primitive_ir_emitter.h"
 
 namespace cip {
+namespace gpu {
     
+}
 }

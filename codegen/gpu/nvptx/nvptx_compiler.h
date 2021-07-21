@@ -19,7 +19,6 @@ namespace cip {
 namespace gpu {
 
 class NvptxCompiler : public GpuCompiler {
-
 };
 
 }

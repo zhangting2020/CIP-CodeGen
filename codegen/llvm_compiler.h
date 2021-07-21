@@ -11,11 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#pragma once
 
-#include "amd_elemental_ir_emitter.h"
+#include "compiler.h"
 
-namespace cip {
-namespace gpu {
-    
-}
+namespace cip{
+
+class LlvmCompiler : public Compiler {
+public:
+    virtual ~LlvmCompiler() = 0;
+
+    virtual Executable* Apply(MloModule* mlo_module) {};
+    virtual Executable* Optimize(MloModule* mlo_module) {};
+    virtual Status ConvertToIR(MloModule*, llvm::Module*, Schedules*) {};
+    virtual Status Compile(const llvm::Module*) {};
+
+};
+
 }

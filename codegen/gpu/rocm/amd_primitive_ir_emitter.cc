@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "nvptx_elemental_ir_emitter.h"
+#include "amd_primitive_ir_emitter.h"
 
 namespace cip {
 namespace gpu {

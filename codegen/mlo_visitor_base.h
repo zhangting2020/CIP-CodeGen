@@ -19,43 +19,61 @@
 namespace cip {
 
 //A Mlo Instruction Visitor
+/*
+// 根据resnet50和bert模型所使用的算子进行低层IR指令选择enum class MetaOpCode {  
+    // 复杂算子  Convolution,  Pooling,  PoolingGrad,  Dot,  BatchNormalzationInference,  BatchNormalzationTraining,  BatchNormGrad,  
+    // 一元算子  Copy,  Cast,  Log,  Exp,  Rsqrt,  Negative,  Sqrt,  
+    // 二元算子  Add,  Subtract,  Multiply,  Divide,  Minimum,  Maximum,  Compare,  
+    // 其他元算子  Broadcast,  Reshape,  Rng,  Slice,  Concat,  Transpose,  Reduce,  Select,};
+*/
 
+template<class InstructionPtr>
 class MloVisitorBase {
 public:
     MloVisitorBase(){}
     ~MloVisitorBase(){}
 
-    virtual Status HandleElementwiseUnary(MloInstruction* mlo) = 0;
-    virtual Status HandleElementwiseBinary(MloInstruction* mlo) = 0;
+    virtual Status Visit(InstructionPtr *mlo) = 0;
+    //virtual Status HandleElementwiseUnary(InstructionPtr* mlo) = 0;
+    //virtual Status HandleElementwiseBinary(InstructionPtr* mlo) = 0;
+
+    //AI api
+    virtual Status HandleConvolution(InstructionPtr* mlo) = 0;
+    virtual Status HandlePooling(InstructionPtr* mlo) = 0;
+    virtual Status HandlePoolingGrad(InstructionPtr* mlo) = 0;
+    virtual Status HandleDot(InstructionPtr* mlo) = 0;
+    virtual Status HandleBatchNormalzationTraining(InstructionPtr* mlo) = 0;
+    virtual Status HandleBatchNormGrad(InstructionPtr* mlo) = 0;
+    virtual Status HandleBatchNormalzationInference(InstructionPtr* mlo) = 0;
 
     //Unary
-    virtual Status HandleCast(MloInstruction* mlo) = 0;
-    virtual Status HandleCopy(MloInstruction* mlo) = 0;
-    virtual Status HandleExp(MloInstruction* mlo) = 0;
-    virtual Status HandleLog(MloInstruction* mlo) = 0;
-    virtual Status HandleSqrt(MloInstruction* mlo) = 0;
-    virtual Status HandleRsqrt(MloInstruction* mlo) = 0;
-    virtual Status HandleNegative(MloInstruction* mlo) = 0;
+    virtual Status HandleCast(InstructionPtr* mlo) = 0;
+    virtual Status HandleCopy(InstructionPtr* mlo) = 0;
+    virtual Status HandleExp(InstructionPtr* mlo) = 0;
+    virtual Status HandleLog(InstructionPtr* mlo) = 0;
+    virtual Status HandleSqrt(InstructionPtr* mlo) = 0;
+    virtual Status HandleRsqrt(InstructionPtr* mlo) = 0;
+    virtual Status HandleNegative(InstructionPtr* mlo) = 0;
 
     //Binary
-    virtual Status HandleAdd(MloInstruction* mlo) = 0;
-    virtual Status HandleSubtract(MloInstruction* mlo) = 0;
-    virtual Status HandleMultiply(MloInstruction* mlo) = 0;
-    virtual Status HandleDivide(MloInstruction* mlo) = 0;
-    virtual Status HandleMaximum(MloInstruction* mlo) = 0;
-    virtual Status HandleMiniMum(MloInstruction* mlo) = 0;
-    virtual Status HandleCompare(MloInstruction* mlo) = 0;
+    virtual Status HandleAdd(InstructionPtr* mlo) = 0;
+    virtual Status HandleSubtract(InstructionPtr* mlo) = 0;
+    virtual Status HandleMultiply(InstructionPtr* mlo) = 0;
+    virtual Status HandleDivide(InstructionPtr* mlo) = 0;
+    virtual Status HandleMaximum(InstructionPtr* mlo) = 0;
+    virtual Status HandleMiniMum(InstructionPtr* mlo) = 0;
+    virtual Status HandleCompare(InstructionPtr* mlo) = 0;
 
     //other
-    virtual Status HandleBroadcast(MloInstruction* mlo) = 0;
-    virtual Status HandleReduce(MloInstruction* mlo) = 0;
-    virtual Status HandleReshape(MloInstruction* mlo) = 0;
-    virtual Status HandleRng(MloInstruction* mlo) = 0;
-    virtual Status HandleSelect(MloInstruction* mlo) = 0;
-    virtual Status HandleTranspose(MloInstruction* mlo) = 0;
+    virtual Status HandleBroadcast(InstructionPtr* mlo) = 0;
+    virtual Status HandleReduce(InstructionPtr* mlo) = 0;
+    virtual Status HandleReshape(InstructionPtr* mlo) = 0;
+    virtual Status HandleRng(InstructionPtr* mlo) = 0;
+    virtual Status HandleSelect(InstructionPtr* mlo) = 0;
+    virtual Status HandleTranspose(InstructionPtr* mlo) = 0;
 
-    virtual Status HandleConcat(MloInstruction* mlo) = 0;
-    virtual Status HandleSlice(MloInstruction* mlo) = 0;
+    virtual Status HandleConcat(InstructionPtr* mlo) = 0;
+    virtual Status HandleSlice(InstructionPtr* mlo) = 0;
 };
 
 }

@@ -13,6 +13,7 @@
 // limitations under the License.
 #pragma once
 
+#include <vector>
 #include <string>
 #include <functional>
 
@@ -28,20 +29,34 @@
 namespace cip {
 
 
-using std::function<llvm::Value*(const std::unordered_map<std::string,llvmm::Value>& dependency, llvm::IRBuilder<>* llvm_builder)> Generator;
-class ElementalBodyGenerator {
+using IrArray = std::vector<llvm::Value*>;
+using Generator = std::function<IrArray(IrArray, llvm::IRBuilder<>* llvm_builder)>;
+
+class PrimitiveBodyGenerator {
 public:
-    ElementalBodyGenerator(){}
-    ~ElementalBodyGenerator(){}
+    PrimitiveBodyGenerator(std::string name, std::string type, Generator generator)
+      :generator_name_(name), generator_type_(type), generator_(generator){}
 
-    void init(std::string name, std::string type, Generator gen);
-    std::string GetName();
-    std::string GetType();
-    llvm::Value* Run(const std::unordered_map<std::string,llvmm::Value>& dependency, llvm::IRBuilder<>* llvm_builder);
+    ~PrimitiveBodyGenerator(){}
+
+    std::string GetName() {
+        return generator_name_;
+    }
+
+    std::string GetType() {
+        generator_type_
+    }
+
+    Generator& GetGenerator() {
+        return  generator_;
+    }
+
+    IrArray Run(const IrArray& ir_array, llvm::IRBuilder *ir_builder) {
+        return generator_(ir_array, ir_builder);
+    }
+
 private:
-    std::string name;
-    std::string type;
-    Generator generator;
+    std::string generator_name_;
+    std::string generator_type_;
+    Generator generator_;
 };
-
-}

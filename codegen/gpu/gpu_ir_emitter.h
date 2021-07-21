@@ -20,9 +20,30 @@ namespace gpu{
 
 class GpuIrEmitter : public IrEmitter {
 public:
+    Status HandleElementwiseUnary(const MloInstruction* mlo) override;
+    Status HandleElementwiseBinary(const MloInstruction* mlo) override;
 
-private:
+    //api
+    /*
+    virtual Status HandleConvolution(const MloInstruction* mlo);
+    virtual Status HandlePooling(const MloInstruction* mlo);
+    virtual Status HandlePoolingGrad(const MloInstruction* mlo);
+    virtual Status HandleDot(const MloInstruction* mlo);
+    virtual Status HandleBatchNormalzationTraining(const MloInstruction* mlo);
+    virtual Status HandleBatchNormGrad(const MloInstruction* mlo);
+    virtual Status HandleBatchNormalzationInference(const MloInstruction* mlo);
+    */
 
+    //other
+    Status HandleBroadcast(const MloInstruction* mlo);
+    Status HandleReduce(const MloInstruction* mlo);
+    Status HandleReshape(const MloInstruction* mlo);
+    Status HandleRng(const MloInstruction* mlo);
+    Status HandleSelect(const MloInstruction* mlo);
+    Status HandleTranspose(const MloInstruction* mlo);
+
+    Status HandleConcat(const MloInstruction* mlo);
+    Status HandleSlice(const MloInstruction* mlo);
 };
 
 }

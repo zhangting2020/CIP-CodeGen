@@ -11,11 +11,26 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#pragma once
 
-#include "amd_ir_emitter.h"
+#include <vector>
+#include <string>
+#include "execution_stream.h"
 
 namespace cip {
-namespace gpu {
-    
-}
+
+class ScheduleParams{
+
+};
+
+class ScheduleWrapper{
+public:
+    Status Run(const ExecutionStream&);
+protected:
+    std::string kernel_name_;
+    ScheduleParams schedule_params_;
+};
+
+using Schedules = std::vector<ScheduleWrapper*>;
+
 }

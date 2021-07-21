@@ -13,14 +13,16 @@
 // limitations under the License.
 #pragma once
 
-#include "codegen/gpu/gpu_elemental_ir_emitter.h"
+#include <cuda_runtime.h>
+#include "execution_stream.h"
 
-namespace cip {
-namespace gpu {
+namespace cip{
+namespace gpu{
+class NvptxStream : public ExecutionStream{
+public:
 
-class NvptxElementalIrEmitter : public GpuElementalIrEmitter{
-
+private:
+    cudaStream_t cuda_stream_;
 };
-
 }
 }
